@@ -2,8 +2,8 @@
 using System.Linq;
 using System.Net;
 using System.Web;
-using System.Web.Helpers;
-
+//using System.Web.Helpers;
+using System.Web.Script.Serialization;
 using Sitecore.Ship.Core.Contracts;
 using Sitecore.Ship.Core.Domain;
 using Sitecore.Ship.Infrastructure;
@@ -34,7 +34,7 @@ namespace Sitecore.Ship.AspNet.Publish
 
                 _publishService.Run(publishParameters);
 
-                var json = Json.Encode(new { date });
+                var json = new JavaScriptSerializer().Serialize(new { date });
 
                 JsonResponse(json, HttpStatusCode.Accepted, context);
             }

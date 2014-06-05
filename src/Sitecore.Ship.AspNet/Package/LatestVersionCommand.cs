@@ -2,8 +2,8 @@
 using System.Net;
 using System.Text;
 using System.Web;
-using System.Web.Helpers;
-
+//using System.Web.Helpers;
+using System.Web.Script.Serialization;
 using Sitecore.Ship.Core;
 using Sitecore.Ship.Core.Contracts;
 using Sitecore.Ship.Core.Domain;
@@ -41,7 +41,7 @@ namespace Sitecore.Ship.AspNet.Package
                     }
                     else
                     {
-                        var json = Json.Encode(new { installedPackage });
+                        var json = new JavaScriptSerializer().Serialize(new { installedPackage });
 
                         JsonResponse(json, HttpStatusCode.OK, context);
                     }
