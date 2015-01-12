@@ -68,7 +68,11 @@ namespace Sitecore.Ship.AspNet.Package
 
         private static InstallPackage GetRequest(HttpRequestBase request)
         {
-            return new InstallPackage { Path = request.Form["path"] };
+            // niesim 
+            var disableIndexing = false;
+            Boolean.TryParse(request.Form["DisableIndexing"], out disableIndexing);
+
+            return new InstallPackage { Path = request.Form["path"], DisableIndexing = disableIndexing};
         }
     }
 }
