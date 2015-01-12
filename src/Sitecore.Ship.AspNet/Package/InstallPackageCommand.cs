@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Net;
 using System.Web;
-using System.Web.Helpers;
-
+//using System.Web.Helpers;
+using System.Web.Script.Serialization;
 using Sitecore.Ship.Core;
 using Sitecore.Ship.Core.Contracts;
 using Sitecore.Ship.Core.Domain;
@@ -40,9 +40,9 @@ namespace Sitecore.Ship.AspNet.Package
                 {
                     var package = GetRequest(context.Request);
                     var manifest = _repository.AddPackage(package);
-                    _installationRecorder.RecordInstall(package.Path, DateTime.Now);       
+                    _installationRecorder.RecordInstall(package.Path, DateTime.Now);
 
-                    var json = Json.Encode(new { manifest.Entries });
+                    var json = new JavaScriptSerializer().Serialize(new { manifest.Entries });
 
                     JsonResponse(json, HttpStatusCode.Created, context);
 
