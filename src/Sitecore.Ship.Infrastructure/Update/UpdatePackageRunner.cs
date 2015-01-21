@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using Sitecore.IO;
 using Sitecore.Ship.Core;
 using Sitecore.Ship.Core.Contracts;
 using Sitecore.Ship.Core.Domain;
@@ -55,7 +56,7 @@ namespace Sitecore.Ship.Infrastructure.Update
                         Sitecore.Configuration.Settings.Indexing.Enabled = true;
                     }
 
-                    UpdateHelper.SaveInstallationMessages(entries, historyPath);
+                    SaveInstallationMessages(entries, historyPath);
                 }
             }
         }
@@ -73,6 +74,15 @@ namespace Sitecore.Ship.Infrastructure.Update
                 throw new Exception("Package is not selected.");
             }
             return info;
+        }
+
+        private string SaveInstallationMessages(List<ContingencyEntry> entries, string historyPath)
+        {
+            string path = Path.Combine(historyPath, "messages.xml");
+            FileUtil.EnsureFolder(path);
+            using (FileStream fileStream = File.Create(path))
+                new XmlEntrySerializer().Serialize(entries, (Stream)fileStream);
+            return path;
         }
     }
 }
